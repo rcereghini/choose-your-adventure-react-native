@@ -21,6 +21,7 @@ const BOOK = {
     {oneReq: [], twoReq: [], threeReq: []}
   ],
   pageNumber: 0,
+  pageImage: '',
   statChange: [0,0,0],
   text: '',
   title: '',
@@ -169,7 +170,7 @@ export default class BookScreen extends React.Component {
         source={{ uri: 'https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/ENwbI9D3xilj9k3k8/nature-old-paper-texture-or-background-video-animation_rpiagnsz__F0000.png' }}
       >
       </Image>
-          <Image style={styles.chapterImage} source={{uri: "https://image.shutterstock.com/z/stock-photo-sci-fi-contruction-in-the-desert-illustration-digital-painting-556472887.jpg"}}></Image>
+          <Image style={styles.chapterImage} source={{uri: this.state.pageImage}}></Image>
           <Text style={styles.titleText}>{this.state.title}</Text>
           <Text style={styles.mainText}>{this.state.text}</Text>    
 <View style={styles.buttonWrap}>
