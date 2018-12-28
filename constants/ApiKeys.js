@@ -1,10 +1,10 @@
 export default {
     FirebaseConfig: { 
-        apiKey: "AIzaSyAPcod_DVrI02oxfgWZeFM8Ttklaai9sFA",
-        authDomain: "bobsproject.firebaseapp.com",
-        databaseURL: "https://bobsproject.firebaseio.com",
-        projectId: "bobsproject",
-        storageBucket: "",
-        messagingSenderId: "463142145391"
+        apiKey: "AIzaSyDhxypSiLc2YIWZKVfmKDbgnIM73tFBKsM",
+        authDomain: "cya2018-6942c.firebaseapp.com",
+        databaseURL: "https://cya2018-6942c.firebaseio.com",
+        projectId: "cya2018-6942c",
+        storageBucket: "cya2018-6942c.appspot.com",
+        messagingSenderId: "590960767250"
      },
 }

@@ -9,13 +9,25 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { WebBrowser } from 'expo';
 import * as firebase from 'firebase'
 import 'firebase/firestore'
 
-import { MonoText } from '../components/StyledText';
+const BOOK = {
+  inventoryAdd: '',
+  inventoryRemove: '',
+  options: [
+    {one: '', two: '', three: ''},
+    {one: '', two: '', three: ''},
+    {oneReq: [], twoReq: [], threeReq: []}
+  ],
+  pageNumber: 0,
+  statChange: [0,0,0],
+  text: '',
+  title: '',
+}
 
-export default class HomeScreen extends React.Component {
+
+export default class BookScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
@@ -26,8 +38,20 @@ export default class HomeScreen extends React.Component {
       mainText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras magna velit, hendrerit nec vestibulum ut, aliquet nec erat. Nunc ligula ipsum, ultricies sed cursus nec, porttitor dapibus arcu. \n\nNulla aliquam efficitur magna, vel feugiat orci scelerisque sit amet. Mauris egestas quam purus, nec consectetur lectus mattis eu. Fusce vestibulum ornare gravida. Integer a lorem pretium dui commodo commodo ac non nisi. In tincidunt leo vel ipsum faucibus efficitur. Maecenas pellentesque pulvinar justo et viverra. Donec purus risus, viverra vel varius eu, tristique non sem. Sed tristique luctus condimentum. Sed ultrices vestibulum orci, eget convallis sem porttitor sed. Vestibulum nec rhoncus urna.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Cras magna velit, hendrerit nec vestibulum ut, aliquet nec erat. Nunc ligula ipsum, ultricies sed cursus nec, porttitor dapibus arcu. Nulla aliquam efficitur magna, vel feugiat orci scelerisque sit amet. Mauris egestas quam purus, nec consectetur lectus mattis eu. Fusce vestibulum ornare gravida. Integer a lorem pretium dui commodo commodo ac non nisi. In tincidunt leo vel ipsum faucibus efficitur. Maecenas pellentesque pulvinar justo et viverra. Donec purus risus, viverra vel varius eu, tristique non sem. Sed tristique luctus condimentum. Sed ultrices vestibulum orci, eget convallis sem porttitor sed. Vestibulum nec rhoncus urna.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Cras magna velit, hendrerit nec vestibulum ut, aliquet nec erat. Nunc ligula ipsum, ultricies sed cursus nec, porttitor dapibus arcu. Nulla aliquam efficitur magna, vel feugiat orci scelerisque sit amet. Mauris egestas quam purus, nec consectetur lectus mattis eu. Fusce vestibulum ornare gravida. Integer a lorem pretium dui commodo commodo ac non nisi. In tincidunt leo vel ipsum faucibus efficitur. Maecenas pellentesque pulvinar justo et viverra. Donec purus risus, viverra vel varius eu, tristique non sem. Sed tristique luctus condimentum. Sed ultrices vestibulum orci, eget convallis sem porttitor sed. Vestibulum nec rhoncus urna.",
       optionOne: 'Option One!',
       optionTwo: 'Option Two!',
-      optionThree: 'Option Three!'
+      optionThree: 'Option Three!',
+      ...BOOK,
+      user:{
+        name: 'User Name',
+        friendName: 'Thomas',
+        gender: 'male',
+        stats: {
+          int: 1,
+          str: 1,
+          dex: 1
+        },
+        inventory: []
     }
+  }
 
     if(!firebase.apps.length)
       firebase.initializeApp(ApiKeys.FirebaseConfig)
@@ -36,7 +60,20 @@ export default class HomeScreen extends React.Component {
     firestore.settings(settings);
 
     this.handleClick = this.handleClick.bind(this)
+    this.setName = this.setName.bind(this);
+    this.winGame = this.winGame.bind(this);
+    this.loseGame = this.loseGame.bind(this);
+    this.resetGame = this.resetGame.bind(this);
+    this.optionSelect = this.optionSelect.bind(this);
+    this.addToInventory = this.addToInventory.bind(this);
+    this.getThisPage = this.getThisPage.bind(this);
   }
+
+  componentDidMount(){
+    this.getThisPage(0)
+  }
+
+
 
   handleClick(firstName){
     firebase.firestore().collection("tests").add({
@@ -46,6 +83,72 @@ export default class HomeScreen extends React.Component {
      })
     alert('Perhaps we have added the entry...')
   }
+
+  
+
+  addToInventory = (item) => {
+    this.setState(state => state.user.inventory.push(item))
+  }
+
+  async getThisPage(pNum){
+    let pageData = await firebase.firestore().collection('Book').where('page.pageNumber', '==', pNum.toString()).get().then((data) => data.docs[0].data().page)
+    console.log(pageData)
+    this.setState({...pageData})
+  }
+
+  setName(event){
+    this.setState(state => ({
+      user: {
+        name: document.getElementById('nameInput').value,
+        friendName: this.state.user.friendName,
+        gender: this.state.user.gender,
+        stats: {
+          int: this.state.user.stats.int,
+          str: this.state.user.stats.str,
+          dex: this.state.user.stats.dex
+        },
+        inventory: this.state.user.inventory
+      }
+    }))
+  }
+
+  // optionNumber, pageNumber, optionText
+  optionSelect(option){
+    if(this.state.options[1].option[option] === 67)
+      this.winGame()
+    if(this.state.options[1].option[option] === 66)
+      this.loseGame()
+    this.getThisPage(this.state.options[1].option[option])
+    // if(BOOK[option].inventoryAdd){this.addToInventory(BOOK[option].inventoryAdd)
+    // }
+    //check inv/stat add
+  }
+
+  winGame = () => {
+    alert('You Win!')
+  }
+  
+  loseGame = () => {
+    alert('You Lose!')
+  }
+
+  resetGame = () => {
+    this.setState({
+      ...BOOK[0],
+      user:{
+        name: 'User Name',
+        friendName: 'Thomas',
+        gender: 'male',
+        stats: {
+          int: 1,
+          str: 1,
+          dex: 1
+        },
+        inventory: []
+      }
+    })
+  }
+
 
   render() {
     return (
@@ -66,11 +169,12 @@ export default class HomeScreen extends React.Component {
       >
       </Image>
           <Image style={styles.chapterImage} source={{uri: "https://image.shutterstock.com/z/stock-photo-sci-fi-contruction-in-the-desert-illustration-digital-painting-556472887.jpg"}}></Image>
-          <Text style={styles.mainText}>{this.state.mainText}</Text>    
+          <Text style={styles.mainText}>{this.state.title}</Text>
+          <Text style={styles.mainText}>{this.state.text}</Text>    
 <View style={styles.buttonWrap}>
-          <Button onPress={() => this.handleClick('sam')} title={this.state.optionOne}></Button>   
-          <Button onPress={() => this.handleClick('Travis')} title={this.state.optionTwo}></Button>
-          <Button onPress={() => this.handleClick('bart')} title={this.state.optionThree}></Button>
+          <Button onPress={() => this.optionSelect(this.state.options[1].one)} title={this.state.options[0].one}></Button>   
+          <Button onPress={() => this.optionSelect(this.state.options[1].two)} title={this.state.options[0].two}></Button>
+          <Button onPress={() => this.optionSelect(this.state.options[1].three)} title={this.state.options[0].three}></Button>
         </View>
         
         </ScrollView>
@@ -95,7 +199,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     backgroundColor: 'rgba(255,255,255,.3)',
-    fontFamily: 'magic-cards-normal'
+    fontFamily: 'sans-serif'
   },
   chapterImage: {
     height: 200
