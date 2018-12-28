@@ -92,7 +92,6 @@ export default class BookScreen extends React.Component {
 
   async getThisPage(pNum){
     let pageData = await firebase.firestore().collection('Book').where('page.pageNumber', '==', pNum.toString()).get().then((data) => data.docs[0].data().page)
-    console.log(pageData)
     this.setState({...pageData})
   }
 
@@ -114,11 +113,13 @@ export default class BookScreen extends React.Component {
 
   // optionNumber, pageNumber, optionText
   optionSelect(option){
-    if(this.state.options[1].option[option] === 67)
-      this.winGame()
-    if(this.state.options[1].option[option] === 66)
-      this.loseGame()
-    this.getThisPage(this.state.options[1].option[option])
+    // alert(JSON.stringify(this.state.options[1][option]))
+    // alert(this.state.options[1].option[option])
+    // if(this.state.options[1].option[option] === 67)
+    //   this.winGame()
+    // if(this.state.options[1].option[option] === 66)
+    //   this.loseGame()
+    this.getThisPage(option)
     // if(BOOK[option].inventoryAdd){this.addToInventory(BOOK[option].inventoryAdd)
     // }
     //check inv/stat add
@@ -169,7 +170,7 @@ export default class BookScreen extends React.Component {
       >
       </Image>
           <Image style={styles.chapterImage} source={{uri: "https://image.shutterstock.com/z/stock-photo-sci-fi-contruction-in-the-desert-illustration-digital-painting-556472887.jpg"}}></Image>
-          <Text style={styles.mainText}>{this.state.title}</Text>
+          <Text style={styles.titleText}>{this.state.title}</Text>
           <Text style={styles.mainText}>{this.state.text}</Text>    
 <View style={styles.buttonWrap}>
           <Button onPress={() => this.optionSelect(this.state.options[1].one)} title={this.state.options[0].one}></Button>   
@@ -193,12 +194,21 @@ const styles = StyleSheet.create({
     flex: 1,
     color: 'white'
   },
+  titleText:{
+    fontSize: 20,
+    fontFamily: 'sans-serif',
+    paddingTop: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    textAlign: 'center'
+  },
   mainText:{
     fontSize: 20,
     paddingTop: 10,
     paddingLeft: 10,
     paddingRight: 10,
     backgroundColor: 'rgba(255,255,255,.3)',
+    minHeight: 270,
     fontFamily: 'sans-serif'
   },
   chapterImage: {
