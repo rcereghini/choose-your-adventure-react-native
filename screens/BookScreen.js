@@ -17,9 +17,10 @@ const BOOK = {
   inventoryRemove: '',
   options: [
     {one: '', two: '', three: ''},
-    {one: '', two: '', three: ''},
+    {one: 0, two: 0, three: 0},
     {oneReq: [], twoReq: [], threeReq: []}
   ],
+  pageImage: '',
   pageNumber: 0,
   statChange: [0,0,0],
   text: '',
@@ -35,10 +36,6 @@ export default class BookScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      mainText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras magna velit, hendrerit nec vestibulum ut, aliquet nec erat. Nunc ligula ipsum, ultricies sed cursus nec, porttitor dapibus arcu. \n\nNulla aliquam efficitur magna, vel feugiat orci scelerisque sit amet. Mauris egestas quam purus, nec consectetur lectus mattis eu. Fusce vestibulum ornare gravida. Integer a lorem pretium dui commodo commodo ac non nisi. In tincidunt leo vel ipsum faucibus efficitur. Maecenas pellentesque pulvinar justo et viverra. Donec purus risus, viverra vel varius eu, tristique non sem. Sed tristique luctus condimentum. Sed ultrices vestibulum orci, eget convallis sem porttitor sed. Vestibulum nec rhoncus urna.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Cras magna velit, hendrerit nec vestibulum ut, aliquet nec erat. Nunc ligula ipsum, ultricies sed cursus nec, porttitor dapibus arcu. Nulla aliquam efficitur magna, vel feugiat orci scelerisque sit amet. Mauris egestas quam purus, nec consectetur lectus mattis eu. Fusce vestibulum ornare gravida. Integer a lorem pretium dui commodo commodo ac non nisi. In tincidunt leo vel ipsum faucibus efficitur. Maecenas pellentesque pulvinar justo et viverra. Donec purus risus, viverra vel varius eu, tristique non sem. Sed tristique luctus condimentum. Sed ultrices vestibulum orci, eget convallis sem porttitor sed. Vestibulum nec rhoncus urna.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Cras magna velit, hendrerit nec vestibulum ut, aliquet nec erat. Nunc ligula ipsum, ultricies sed cursus nec, porttitor dapibus arcu. Nulla aliquam efficitur magna, vel feugiat orci scelerisque sit amet. Mauris egestas quam purus, nec consectetur lectus mattis eu. Fusce vestibulum ornare gravida. Integer a lorem pretium dui commodo commodo ac non nisi. In tincidunt leo vel ipsum faucibus efficitur. Maecenas pellentesque pulvinar justo et viverra. Donec purus risus, viverra vel varius eu, tristique non sem. Sed tristique luctus condimentum. Sed ultrices vestibulum orci, eget convallis sem porttitor sed. Vestibulum nec rhoncus urna.",
-      optionOne: 'Option One!',
-      optionTwo: 'Option Two!',
-      optionThree: 'Option Three!',
       ...BOOK,
       user:{
         name: 'User Name',
@@ -49,7 +46,7 @@ export default class BookScreen extends React.Component {
           str: 1,
           dex: 1
         },
-        inventory: []
+        inventory: ['Beginners Luck']
     }
   }
 
@@ -59,7 +56,6 @@ export default class BookScreen extends React.Component {
     const settings = {timestampsInSnapshots: true}
     firestore.settings(settings);
 
-    this.handleClick = this.handleClick.bind(this)
     this.setName = this.setName.bind(this);
     this.winGame = this.winGame.bind(this);
     this.loseGame = this.loseGame.bind(this);
@@ -69,31 +65,35 @@ export default class BookScreen extends React.Component {
     this.getThisPage = this.getThisPage.bind(this);
   }
 
+/////////////////////////////////////////////////////////////////////
+
+
   componentDidMount(){
     this.getThisPage(0)
   }
 
 
+/////////////////////////////////////////////////////////////////////
 
-  handleClick(firstName){
-    firebase.firestore().collection("tests").add({
-      first: firstName,
-      last: "Add!",
-      born: 1337
-     })
-    alert('Perhaps we have added the entry...')
-  }
+  async addToInventory(item){
+    // let currentInventory = await firebase.firestore().collection('inventoryTest').doc('Bob').get()
+    //                           .then(function(data){
 
-  
-
-  addToInventory = (item) => {
-    this.setState(state => state.user.inventory.push(item))
+    //                             })
+    // // await alert(`currentInventory: ${this.state.user.inventory}`)
+    // this.setState({
+    //   user: this.state.user.inventory.push(item)
+    // }, () => console.log(`state: ${this.state.user.inventory}`))
+    // firebase.firestore().collection('inventoryTest').doc('Bob').set({inventory: item})
   }
 
   async getThisPage(pNum){
-    let pageData = await firebase.firestore().collection('Book').where('page.pageNumber', '==', pNum.toString()).get().then((data) => data.docs[0].data().page)
-    console.log(pageData)
-    this.setState({...pageData})
+    let pageData = await firebase.firestore().collection('Book')
+                            .where('page.pageNumber', '==', pNum.toString())
+                            .get().then((data) => data.docs[0].data().page)
+    this.setState({...pageData}, () => [
+      (this.state.inventoryAdd) ? this.addToInventory(this.state.inventoryAdd) : console.log('no item here')
+    ])
   }
 
   setName(event){
@@ -114,13 +114,9 @@ export default class BookScreen extends React.Component {
 
   // optionNumber, pageNumber, optionText
   optionSelect(option){
-    if(this.state.options[1].option[option] === 67)
-      this.winGame()
-    if(this.state.options[1].option[option] === 66)
-      this.loseGame()
-    this.getThisPage(this.state.options[1].option[option])
-    // if(BOOK[option].inventoryAdd){this.addToInventory(BOOK[option].inventoryAdd)
-    // }
+    
+    this.getThisPage(option)
+    
     //check inv/stat add
   }
 
@@ -152,64 +148,126 @@ export default class BookScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-       
-        <ScrollView style={styles.textWrap} contentContainerStyle={styles.contentContainer}>
+      <View style={styles.container}> 
         <Image
-        style={{
-          backgroundColor: '#ccc',
-          flex: 1,
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          justifyContent: 'center',
-          marginTop: 25
-        }}
-        source={{ uri: 'https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/ENwbI9D3xilj9k3k8/nature-old-paper-texture-or-background-video-animation_rpiagnsz__F0000.png' }}
-      >
-      </Image>
-          <Image style={styles.chapterImage} source={{uri: "https://image.shutterstock.com/z/stock-photo-sci-fi-contruction-in-the-desert-illustration-digital-painting-556472887.jpg"}}></Image>
-          <Text style={styles.mainText}>{this.state.title}</Text>
-          <Text style={styles.mainText}>{this.state.text}</Text>    
-<View style={styles.buttonWrap}>
-          <Button onPress={() => this.optionSelect(this.state.options[1].one)} title={this.state.options[0].one}></Button>   
-          <Button onPress={() => this.optionSelect(this.state.options[1].two)} title={this.state.options[0].two}></Button>
-          <Button onPress={() => this.optionSelect(this.state.options[1].three)} title={this.state.options[0].three}></Button>
-        </View>
+            style={{
+              backgroundColor: '#ccc',
+              flex: 1,
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              justifyContent: 'center',
+              marginTop: 25
+            }}
+            source={{ uri: 'https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/ENwbI9D3xilj9k3k8/nature-old-paper-texture-or-background-video-animation_rpiagnsz__F0000.png' }}
+          >
+        </Image>
+        <ScrollView style={styles.scrollWrap} contentContainerStyle={styles.contentContainer}>
+        <View style={styles.wrapAll}>
         
+            <View style={styles.imageWrap}>
+              <Image style={styles.chapterImage} source={{uri: this.state.pageImage}}></Image>
+            </View>
+            <View style={styles.textWrap}>
+              <Text style={styles.mainText}>{this.state.title}{(this.state.title) ? '\n\n' : ''}{this.state.text}</Text>
+            </View>
+            <View style={styles.buttonWrap}>
+              {
+                (this.state.options[1].one) ? 
+                  <Text onPress={() => this.optionSelect(this.state.options[1].one)} style={styles.choiceButton}>{this.state.options[0].one}</Text> :
+                  <View></View>
+              }
+              {
+                (this.state.options[1].two) ? 
+                  <Text onPress={() => this.optionSelect(this.state.options[1].two)} style={styles.choiceButton}>{this.state.options[0].two}</Text> :
+                  <View></View>
+              }
+              {
+                (this.state.options[1].three) ?
+                <Text onPress={() => this.optionSelect(this.state.options[1].three)} style={styles.choiceButton}>{this.state.options[0].three}</Text> :
+                <View></View>
+              } 
+            </View>
+        </View>  
         </ScrollView>
-        
       </View>
     );
   }
 
 }
 
-const styles = StyleSheet.create({
-  buttonWrap:{
-    justifyContent: 'flex-end'
+
+//////////////////////////////////////////////////////////////////////////////////
+
+const styles = StyleSheet.create({ 
+  wrapAll:{
+    display: 'flex',
+    flex: 1,
+    height: '100%',
+    justifyContent: 'space-around',
+    
+  },
+  imageWrap: {
+    flex: 1,
+    borderWidth: 5,
+    borderColor: '#333232',
+    marginLeft: -5,
+    marginRight: -5,
+    // marginTop: 10,
+    marginBottom: 10
   },
   textWrap:{
     flex: 1,
+    minHeight: 221
+  },
+  buttonWrap:{
+    flex: 1,
+    // justifyContent: 'flex-end'
+    marginBottom: 20
+  },
+  choiceButton: {
+    flex: 1,
+    fontSize: 21,
+    textAlign: 'center',
+    marginRight: 7,
+    marginLeft: 7,
+    marginTop: 10,
+    paddingTop: 7,
+    paddingBottom: 5,
+    borderColor: '#333232',
+    borderWidth: 4,
+    backgroundColor: '#8C7284',
     color: 'white'
+  },
+  chapterImage: {
+    height: 200
+  },
+  titleText:{
+    fontSize: 22,
+    paddingTop: 20,
+    flex: 1
   },
   mainText:{
     fontSize: 20,
     paddingTop: 10,
     paddingLeft: 10,
     paddingRight: 10,
-    backgroundColor: 'rgba(255,255,255,.3)',
-    fontFamily: 'sans-serif'
+    paddingBottom: 20,
+    fontFamily: 'sans-serif',
+    flex: 3,
   },
-  chapterImage: {
-    height: 200
+  scrollWrap:{
+    height: '100%',
+    backgroundColor: 'rgba(88, 88, 88, 0.2)'
   },
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    // backgroundColor: 'black',
     display: 'flex'
   },
   contentContainer: {
-    paddingTop: 25,
+    marginTop: -5
   }
 });
+
+//////////////////////////////////////////////////////////////////////////////////

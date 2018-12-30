@@ -23,6 +23,11 @@ BookStack.navigationOptions = {
       }
     />
   ),
+  tabBarOptions: {
+    style: {
+      backgroundColor: '#333232',
+    },
+  }
 };
 
 const AvatarStack = createStackNavigator({
@@ -37,6 +42,11 @@ AvatarStack.navigationOptions = {
       name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'}
     />
   ),
+  tabBarOptions: {
+    style: {
+      backgroundColor: '#333232',
+    },
+  }
 };
 
 const SettingsStack = createStackNavigator({
@@ -51,6 +61,11 @@ SettingsStack.navigationOptions = {
       name={Platform.OS === 'ios' ? 'ios-settings' : 'md-settings'}
     />
   ),
+  tabBarOptions: {
+    style: {
+      backgroundColor: '#333232',
+    },
+  }
 };
 
 export default createBottomTabNavigator({
