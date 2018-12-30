@@ -8,6 +8,7 @@ import {
   Button,
   TouchableOpacity,
   View,
+  StatusBar
 } from 'react-native';
 import * as firebase from 'firebase'
 import 'firebase/firestore'
@@ -20,7 +21,7 @@ const BOOK = {
     {one: 0, two: 0, three: 0},
     {oneReq: [], twoReq: [], threeReq: []}
   ],
-  pageImage: '',
+  pageImage: 'www.opinads.com',
   pageNumber: 0,
   statChange: [0,0,0],
   text: '',
@@ -41,11 +42,8 @@ export default class BookScreen extends React.Component {
         name: 'User Name',
         friendName: 'Thomas',
         gender: 'male',
-        stats: {
-          int: 1,
-          str: 1,
-          dex: 1
-        },
+        kribbits: 0,
+        gameId: 'testId',
         inventory: ['Beginners Luck']
     }
   }
@@ -84,7 +82,13 @@ export default class BookScreen extends React.Component {
     // this.setState({
     //   user: this.state.user.inventory.push(item)
     // }, () => console.log(`state: ${this.state.user.inventory}`))
-    // firebase.firestore().collection('inventoryTest').doc('Bob').set({inventory: item})
+
+    // REFACTOR TO HOLD IN STATE AND STORE ON SAVE!
+
+    firebase.firestore().collection('userInventory').doc(this.state.user.gameId).update({[item]: true})
+      .catch(() => {
+        firebase.firestore().collection('userInventory').doc(this.state.user.gameId).set({[item]: true})
+      })
   }
 
   async getThisPage(pNum){
@@ -149,6 +153,7 @@ export default class BookScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}> 
+        <StatusBar hidden />
         <Image
             style={{
               backgroundColor: '#ccc',
