@@ -164,17 +164,29 @@ export default class BookScreen extends React.Component {
               justifyContent: 'center',
               marginTop: 25
             }}
-            source={{ uri: 'https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/ENwbI9D3xilj9k3k8/nature-old-paper-texture-or-background-video-animation_rpiagnsz__F0000.png' }}
+            source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/cya2018-6942c.appspot.com/o/leather.jpg?alt=media&token=186d45c2-5c89-4529-acd6-0018d767995f' }}
           >
         </Image>
         <ScrollView style={styles.scrollWrap} contentContainerStyle={styles.contentContainer}>
         <View style={styles.wrapAll}>
-        
+          <Image
+              style={{
+                backgroundColor: '#ccc',
+                flex: 1,
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                justifyContent: 'center',
+                marginTop: 25
+              }}
+              source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/cya2018-6942c.appspot.com/o/paper.jpg?alt=media&token=c98d47cf-1ae1-4bd4-890e-165fcd10cf66' }}
+            ></Image>
             <View style={styles.imageWrap}>
               <Image style={styles.chapterImage} source={{uri: this.state.pageImage}}></Image>
             </View>
             <View style={styles.textWrap}>
-              <Text style={styles.mainText}>{this.state.title}{(this.state.title) ? '\n\n' : ''}{this.state.text}</Text>
+              <Text style={styles.titleText}>{(this.state.title) ? this.state.title + '\n------------' : ''}</Text>
+              <Text style={styles.mainText}>{this.state.text}</Text>
             </View>
             <View style={styles.buttonWrap}>
               {
@@ -210,7 +222,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: '100%',
     justifyContent: 'space-around',
-    
+    marginBottom: 20
   },
   imageWrap: {
     flex: 1,
@@ -223,7 +235,14 @@ const styles = StyleSheet.create({
   },
   textWrap:{
     flex: 1,
-    minHeight: 221
+    minHeight: 221,
+    marginTop: 10,
+    backgroundColor: 'rgba(255,255,255,0.3)',
+    marginRight: 8,
+    marginLeft: 8,
+    borderWidth: 1,
+    borderColor: '#333232',
+    marginBottom: 10
   },
   buttonWrap:{
     flex: 1,
@@ -240,7 +259,7 @@ const styles = StyleSheet.create({
     paddingTop: 7,
     paddingBottom: 5,
     borderColor: '#333232',
-    borderWidth: 4,
+    borderWidth: 2,
     backgroundColor: '#8C7284',
     color: 'white'
   },
@@ -250,12 +269,13 @@ const styles = StyleSheet.create({
   titleText:{
     fontSize: 22,
     paddingTop: 20,
+    fontFamily: 'sans-serif',
+    textAlign: 'center',
     flex: 1
   },
   mainText:{
     fontSize: 20,
-    paddingTop: 10,
-    paddingLeft: 10,
+    paddingLeft: 17,
     paddingRight: 10,
     paddingBottom: 20,
     fontFamily: 'sans-serif',
@@ -263,12 +283,12 @@ const styles = StyleSheet.create({
   },
   scrollWrap:{
     height: '100%',
-    backgroundColor: 'rgba(88, 88, 88, 0.2)'
+    backgroundColor: 'rgba(88, 88, 88, 0.2)',
   },
   container: {
     flex: 1,
     // backgroundColor: 'black',
-    display: 'flex'
+    display: 'flex',
   },
   contentContainer: {
     marginTop: -5

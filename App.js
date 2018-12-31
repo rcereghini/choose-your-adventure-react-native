@@ -1,8 +1,9 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, Text, Image } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import ApiKeys from './constants/ApiKeys'
+import LoginScreen from './screens/LoginScreen'
 import * as firebase from 'firebase'
 import 'firebase/firestore'
 
@@ -13,6 +14,7 @@ export default class App extends React.Component {
     super(props)
     this.state = {
       isLoadingComplete: false,
+      authenticated: false
     };
 
     if(!firebase.apps.length)
@@ -32,13 +34,33 @@ export default class App extends React.Component {
           onFinish={this._handleFinishLoading}
         />
       );
-    } else {
+    } else if(this.state.authenticated){
       return (
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
           <AppNavigator />
         </View>
       );
+    } else {
+      return (
+        // <LoginScreen/>
+        <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%'}}>
+        <Image
+            style={{
+              backgroundColor: '#ccc',
+              flex: 1,
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              justifyContent: 'center',
+              marginTop: 25
+            }}
+            source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/cya2018-6942c.appspot.com/o/leather.jpg?alt=media&token=186d45c2-5c89-4529-acd6-0018d767995f' }}
+          >
+        </Image>
+          <Text style={{fontSize: 32, borderWidth: 2, padding: 10, textAlign: 'center', color: 'white', backgroundColor: '#8C7284', borderColor: '#333232',}} onPress={() => this.setState({authenticated: true})}>LOGIN</Text>
+        </View>
+      )
     }
   }
 
