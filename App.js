@@ -7,6 +7,25 @@ import LoginScreen from './screens/LoginScreen'
 import * as firebase from 'firebase'
 import 'firebase/firestore'
 
+//REDUX
+import { Provider } from 'react-redux';
+import { store } from './redux/app-redux';
+import { connect } from 'react-redux'
+
+
+const mapStateToProps = (state) => {
+  return {
+    authenticated: state.authenticated
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setFavoriteAnimal: (text) => { dispatch(setFavoriteAnimal(text))},
+    itemFound: (item) => { dispatch(itemFound(item))}
+  }
+}
+
 export default class App extends React.Component {
   
 
@@ -26,6 +45,7 @@ export default class App extends React.Component {
 
  
   render() {
+    
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
         <AppLoading
@@ -36,30 +56,19 @@ export default class App extends React.Component {
       );
     } else if(this.state.authenticated){
       return (
-        <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />
-        </View>
+        <Provider store={store}>
+          <View style={styles.container}>
+            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            <AppNavigator />
+          </View>
+        </Provider>
       );
     } else {
       return (
         // <LoginScreen/>
-        <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%'}}>
-        <Image
-            style={{
-              backgroundColor: '#ccc',
-              flex: 1,
-              position: 'absolute',
-              width: '100%',
-              height: '100%',
-              justifyContent: 'center',
-              marginTop: 25
-            }}
-            source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/cya2018-6942c.appspot.com/o/leather.jpg?alt=media&token=186d45c2-5c89-4529-acd6-0018d767995f' }}
-          >
-        </Image>
-          <Text style={{fontSize: 32, borderWidth: 2, padding: 10, textAlign: 'center', color: 'white', backgroundColor: '#8C7284', borderColor: '#333232',}} onPress={() => this.setState({authenticated: true})}>LOGIN</Text>
-        </View>
+        <Provider store={store}>
+          <LoginScreen></LoginScreen>
+        </Provider>
       )
     }
   }
@@ -97,3 +106,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 });
+
+
