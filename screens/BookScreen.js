@@ -204,6 +204,7 @@ export default class BookScreen extends React.Component {
                 <Text onPress={() => this.optionSelect(this.state.options[1].three)} style={styles.choiceButton}>{this.state.options[0].three}</Text> :
                 <View></View>
               } 
+              <Text style={{fontSize: 22, paddingTop: 20}}>Selected Item: {this.state.selectedItem}</Text>
             </View>
         </View>  
         </ScrollView>

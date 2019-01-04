@@ -8,8 +8,7 @@ import thunkMiddleware from 'redux-thunk'
 
 const initialState = {
     favoriteAnimal: "duck",
-    inventory: ["Traveler's Scarf"],
-    itemToAdd: "Beginner's Luck",
+    selectedItem: null,
     authenticated: true
 }
 
@@ -22,6 +21,7 @@ const reducer = (state = initialState, action) => {
     switch(action.type){
         case "setFavoriteAnimal": return { ...state, favoriteAnimal: action.value};
         case "userAuthenticated": return { ...state, authenticated: action.value};
+        case "setSelectedItem": return { ...state, selectedItem: action.value}
 
         default: return state;
     }
@@ -49,9 +49,16 @@ const setFavoriteAnimal = (favoriteAnimal) => {
 
 const userAuthenticated = (userId) => {
     return {
-        type: `userAuthenticated`,
+        type: "userAuthenticated",
         value: userId
     }
 }
 
-export { setFavoriteAnimal, userAuthenticated }
+const setSelectedItem = (item) => {
+    return {
+        type: "setSelectedItem",
+        value: item
+    }
+}
+
+export { setFavoriteAnimal, userAuthenticated, setSelectedItem }

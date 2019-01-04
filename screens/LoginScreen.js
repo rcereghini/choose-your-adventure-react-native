@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Text, TextInput, Button, Image } from 'react-native';
-import { connect } from 'react-redux'
-import { setFavoriteAnimal, itemFound } from './../redux/app-redux'
+
+import { connect } from 'react-redux' 
+import { setFavoriteAnimal, userAuthenticated } from './../redux/app-redux'
 
 const mapStateToProps = (state) => {
   return {

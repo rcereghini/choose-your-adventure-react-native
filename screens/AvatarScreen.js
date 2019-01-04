@@ -1,10 +1,29 @@
 import React from 'react';
-import { View, StyleSheet, Text, Image } from 'react-native';
+import { View, StyleSheet, Text, Image, Button } from 'react-native';
+import { connect } from 'react-redux'
 
-export default class AvatarScreen extends React.Component {
+const mapStateToProps = (state) => {
+  return {
+    selectedItem: state.selectedItem,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    selectedItem: (item) => { dispatch(selectedItem(item))},  }
+}
+
+class AvatarScreen extends React.Component {
   static navigationOptions = {
     header: null
   };
+
+  constructor(props){
+    super(props)
+    this.state = {
+      selectedItem: this.props.selectedItem
+    }
+  }
 
   render() {
     return (
@@ -15,7 +34,11 @@ export default class AvatarScreen extends React.Component {
             <Image style={styles.avatarImage} source={{uri:'https://firebasestorage.googleapis.com/v0/b/cya2018-6942c.appspot.com/o/manSilhouette.png?alt=media&token=d5c50063-966b-457f-bbc4-b2351a962b23'}}>
             </Image>
           </View>
-          <Text style={styles.avatarRight}>R</Text>
+          <View style={styles.avatarRight}>
+            <Text>R</Text>
+            <Button title='catNip' onPress={() => this.setState({selectedItem: 'catNip'})} />
+            <Button title='donkeyPits' onPress={() => this.setState({selectedItem: 'donkeyPits'})} />
+          </View>
         </View>
         <View style={styles.attributeContainer}>
           <View style={styles.kribbitBalance}>
@@ -79,3 +102,6 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   }
 });
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(AvatarScreen)

@@ -33,7 +33,7 @@ export default class App extends React.Component {
     super(props)
     this.state = {
       isLoadingComplete: false,
-      authenticated: false
+      authenticated: true
     };
 
     if(!firebase.apps.length)
