@@ -54,10 +54,10 @@ const userAuthenticated = (userId) => {
     }
 }
 
-const setSelectedItem = (item) => {
+const setSelectedItem = (selectedItem) => {
     return {
         type: "setSelectedItem",
-        value: item
+        value: selectedItem
     }
 }
 

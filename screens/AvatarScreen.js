@@ -2,6 +2,9 @@ import React from 'react';
 import { View, StyleSheet, Text, Image, Button } from 'react-native';
 import { connect } from 'react-redux'
 
+import { setSelectedItem } from './../redux/app-redux'
+
+
 const mapStateToProps = (state) => {
   return {
     selectedItem: state.selectedItem,
@@ -10,7 +13,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    selectedItem: (item) => { dispatch(selectedItem(item))},  }
+    setSelectedItem: (item) => { dispatch(setSelectedItem(item))},  }
 }
 
 class AvatarScreen extends React.Component {
@@ -25,6 +28,18 @@ class AvatarScreen extends React.Component {
     }
   }
 
+  onDonkeyNips = () => {
+    this.props.setSelectedItem(this.state.selectedItem)
+  }
+
+  onCatNip = () => {
+    this.props.setSelectedItem(this.state.selectedItem)
+  }
+
+  onDonkeyPits = () => {
+    this.props.setSelectedItem(this.state.selectedItem)
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -35,9 +50,12 @@ class AvatarScreen extends React.Component {
             </Image>
           </View>
           <View style={styles.avatarRight}>
-            <Text>R</Text>
+            <Text style={{color: 'white', textAlign: 'center'}}>R</Text>
             <Button title='catNip' onPress={() => this.setState({selectedItem: 'catNip'})} />
-            <Button title='donkeyPits' onPress={() => this.setState({selectedItem: 'donkeyPits'})} />
+            <Button title='Submit' style={{paddingTop: 20, paddingBottom: 20, marginTop: 20, marginBottom: 20}} onPress={() => this.props.setSelectedItem(this.state.selectedItem)} />
+            {/* learn to conditionally render here. */}
+              <Button title='donkeyPits' onPress={() => this.setState({selectedItem: 'donkeyPits'})} /> 
+
           </View>
         </View>
         <View style={styles.attributeContainer}>
@@ -50,6 +68,7 @@ class AvatarScreen extends React.Component {
             <Text style={styles.kribbitText}>Kribbits: 0</Text>
           </View>
         </View>
+        <Text>Selected Item: {this.props.selectedItem}</Text>
       </View>
     );
   }
@@ -68,7 +87,8 @@ const styles = StyleSheet.create({
   avatarRight:{
     flex: 1,
     textAlign: 'center',
-    backgroundColor: '#333'
+    backgroundColor: '#333',
+    justifyContent: 'space-around'
   },
   avatarLeft: {
     flex: 1,

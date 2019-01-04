@@ -13,6 +13,26 @@ import {
 import * as firebase from 'firebase'
 import 'firebase/firestore'
 
+import { connect } from 'react-redux'
+
+
+const mapStateToProps = (state) => {
+  return {
+    favoriteAnimal: state.favoriteAnimal,
+    authenticated: state.authenticated,
+    selectedItem: state.selectedItem
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    // setFavoriteAnimal: (text) => { dispatch(setFavoriteAnimal(text))},
+    // userAuthenticated: (userId) => { dispatch(userAuthenticated(userId))},
+    // setSelectedItem: (item) => { dispatch(setSelectedItem(item))}
+  }
+}
+
+
 const BOOK = {
   inventoryAdd: '',
   inventoryRemove: '',
@@ -29,7 +49,7 @@ const BOOK = {
 }
 
 
-export default class BookScreen extends React.Component {
+class BookScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
@@ -45,7 +65,8 @@ export default class BookScreen extends React.Component {
         kribbits: 0,
         gameId: 'testId',
         inventory: ['Beginners Luck']
-    }
+    },
+    selectedItem: this.props.selectedItem
   }
 
     if(!firebase.apps.length)
@@ -204,7 +225,7 @@ export default class BookScreen extends React.Component {
                 <Text onPress={() => this.optionSelect(this.state.options[1].three)} style={styles.choiceButton}>{this.state.options[0].three}</Text> :
                 <View></View>
               } 
-              <Text style={{fontSize: 22, paddingTop: 20}}>Selected Item: {this.state.selectedItem}</Text>
+              <Text style={{fontSize: 22, paddingTop: 20}}>Selected Item: {this.props.selectedItem}</Text>
             </View>
         </View>  
         </ScrollView>
@@ -297,3 +318,5 @@ const styles = StyleSheet.create({
 });
 
 //////////////////////////////////////////////////////////////////////////////////
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookScreen)
