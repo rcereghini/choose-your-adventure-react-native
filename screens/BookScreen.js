@@ -170,6 +170,10 @@ class BookScreen extends React.Component {
     })
   }
 
+  onSignoutPress = () => {
+    firebase.auth().signOut();
+  }
+
 
   render() {
     return (
@@ -226,6 +230,7 @@ class BookScreen extends React.Component {
                 <View></View>
               } 
               <Text style={{fontSize: 22, paddingTop: 20}}>Selected Item: {this.props.selectedItem}</Text>
+              <Text onPress={this.onSignoutPress} style={styles.signoutButton}>Signout</Text>
             </View>
         </View>  
         </ScrollView>
@@ -314,6 +319,16 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     marginTop: -5
+  },
+  signoutButton:{
+    paddingTop: 20,
+    paddingBottom: 20,
+    width: 300,
+    color: 'white',
+    marginTop: 30,
+    marginLeft: 30,
+    textAlign: 'center',
+    backgroundColor: '#333'
   }
 });
 

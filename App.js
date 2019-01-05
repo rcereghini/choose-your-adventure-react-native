@@ -1,9 +1,9 @@
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View, Text, Image } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
-import AppNavigator from './navigation/AppNavigator';
+import RootNavigation from './navigation/RootNavigation';
+import MainTabNavigator from './navigation/MainTabNavigator'
 import ApiKeys from './constants/ApiKeys'
-import LoginScreen from './screens/auth/LoginScreen'
 import * as firebase from 'firebase'
 import 'firebase/firestore'
 
@@ -33,20 +33,28 @@ export default class App extends React.Component {
     super(props)
     this.state = {
       isLoadingComplete: false,
+      isAuthenticationReady: false,
+      isAuthenticated: false,
       authenticated: false
     };
 
     if(!firebase.apps.length)
       firebase.initializeApp(ApiKeys.FirebaseConfig)
+    firebase.auth().onAuthStateChanged(this.onAuthStateChanged);
     const firestore = firebase.firestore();
     const settings = {timestampsInSnapshots: true}
     firestore.settings(settings);
   }
 
+  onAuthStateChanged = (user) => {
+    this.setState({isAuthenticatedReady: true})
+    this.setState({isAuthenticated: !!user})
+  }
+
  
   render() {
     
-    if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
+    if ( (!this.state.isLoadingComplete && !this.state.isAuthenticationReady) && !this.props.skipLoadingScreen) {
       return (
         <Provider store={store}>
           <AppLoading
@@ -57,22 +65,15 @@ export default class App extends React.Component {
         </Provider>
         
       );
-    } else if(this.state.authenticated){
+    } else {
       return (
         <Provider store={store}>
           <View style={styles.container}>
             {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-            <AppNavigator />
+            {(this.state.isAuthenticated) ? <MainTabNavigator/> : <RootNavigation />}
           </View>
         </Provider>
       );
-    } else {
-      return (
-        // <LoginScreen/>
-        // <Provider store={store}>
-          <LoginScreen></LoginScreen>
-        // </Provider>
-      )
     }
   }
 
