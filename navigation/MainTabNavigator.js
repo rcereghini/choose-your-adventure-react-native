@@ -24,6 +24,8 @@ BookStack.navigationOptions = {
     />
   ),
   tabBarOptions: {
+    activeTintColor: 'white',
+    activeBackgroundColor: '#545',
     style: {
       backgroundColor: '#333232',
     },
@@ -43,6 +45,8 @@ AvatarStack.navigationOptions = {
     />
   ),
   tabBarOptions: {
+    activeTintColor: 'white',
+    activeBackgroundColor: '#545',
     style: {
       backgroundColor: '#333232',
     },
@@ -62,6 +66,8 @@ SettingsStack.navigationOptions = {
     />
   ),
   tabBarOptions: {
+    activeTintColor: 'white',
+    activeBackgroundColor: '#545',
     style: {
       backgroundColor: '#333232',
     },

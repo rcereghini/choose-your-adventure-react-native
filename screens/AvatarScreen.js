@@ -7,7 +7,7 @@ import { setSelectedItem } from './../redux/app-redux'
 
 const mapStateToProps = (state) => {
   return {
-    selectedItem: state.selectedItem,
+    selectedItem: state.selectedItem
   }
 }
 
@@ -28,17 +28,8 @@ class AvatarScreen extends React.Component {
     }
   }
 
-  onDonkeyNips = () => {
-    this.props.setSelectedItem(this.state.selectedItem)
-  }
+  
 
-  onCatNip = () => {
-    this.props.setSelectedItem(this.state.selectedItem)
-  }
-
-  onDonkeyPits = () => {
-    this.props.setSelectedItem(this.state.selectedItem)
-  }
 
   render() {
     return (
@@ -51,10 +42,23 @@ class AvatarScreen extends React.Component {
           </View>
           <View style={styles.avatarRight}>
             <Text style={{color: 'white', textAlign: 'center'}}>R</Text>
-            <Button title='catNip' onPress={() => this.setState({selectedItem: 'catNip'})} />
-            <Button title='Submit' style={{paddingTop: 20, paddingBottom: 20, marginTop: 20, marginBottom: 20}} onPress={() => this.props.setSelectedItem(this.state.selectedItem)} />
+            <Button title='catNipz' onPress={() => {
+              this.setState({selectedItem: 'catNip'}, () => this.props.setSelectedItem(this.state.selectedItem))
+              }} 
+            />
             {/* learn to conditionally render here. */}
-              <Button title='donkeyPits' onPress={() => this.setState({selectedItem: 'donkeyPits'})} /> 
+            <Button title='donkeyPits' onPress={() => {
+              this.setState({selectedItem: 'donkeyPits'}, () => this.props.setSelectedItem(this.state.selectedItem))
+              }}
+            /> 
+            <Button title='emeraldLint' onPress={() => {
+              this.setState({selectedItem: 'llamaLint'}, () => this.props.setSelectedItem(this.state.selectedItem))
+              }}
+            /> 
+            <Button title='frogMeteor' onPress={() => {
+              this.setState({selectedItem: 'frogMeteor'}, () => this.props.setSelectedItem(this.state.selectedItem))
+              }}
+            /> 
 
           </View>
         </View>

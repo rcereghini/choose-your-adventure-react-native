@@ -59,8 +59,9 @@ class LoginScreen extends React.Component {
             source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/cya2018-6942c.appspot.com/o/leather.jpg?alt=media&token=186d45c2-5c89-4529-acd6-0018d767995f' }}
           >
         </Image>
-        <Text style={{fontSize: 32, borderWidth: 2, padding: 10, textAlign: 'center', color: 'white', backgroundColor: '#8C7284', borderColor: '#333232',}} onPress={() => this.setState({authenticated: true})}>{this.props.favoriteAnimal}</Text>
-        <TextInput 
+        <Text style={{fontSize: 32, borderWidth: 2, padding: 10, textAlign: 'center', color: 'white', backgroundColor: '#8C7284', borderColor: '#333232',}} 
+              onPress={() => this.setState({authenticated: true})}>{this.props.favoriteAnimal}</Text>
+        {/* <TextInput 
           style={{borderWidth: 1, width: 200, height: 50, backgroundColor: 'white', fontSize: 32, padding: 5, marginTop: 20,}}
           value={this.state.favoriteAnimal}
           onChangeText={(text) => {this.setState({favoriteAnimal: text})}}
@@ -74,7 +75,7 @@ class LoginScreen extends React.Component {
           style={{borderWidth: 1, width: 200, height: 50, backgroundColor: 'white', fontSize: 32, padding: 5, marginTop: 20,}}
           value={this.state.itemToAdd}
           onChangeText={(item) => {this.setState({itemToAdd: item})}}
-        />
+        /> */}
       </View>
     );
   }

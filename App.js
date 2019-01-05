@@ -3,7 +3,7 @@ import { Platform, StatusBar, StyleSheet, View, Text, Image } from 'react-native
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import ApiKeys from './constants/ApiKeys'
-import LoginScreen from './screens/LoginScreen'
+import LoginScreen from './screens/auth/LoginScreen'
 import * as firebase from 'firebase'
 import 'firebase/firestore'
 
@@ -33,7 +33,7 @@ export default class App extends React.Component {
     super(props)
     this.state = {
       isLoadingComplete: false,
-      authenticated: true
+      authenticated: false
     };
 
     if(!firebase.apps.length)
@@ -48,11 +48,14 @@ export default class App extends React.Component {
     
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
-        <AppLoading
+        <Provider store={store}>
+          <AppLoading
           startAsync={this._loadResourcesAsync}
           onError={this._handleLoadingError}
           onFinish={this._handleFinishLoading}
-        />
+          />
+        </Provider>
+        
       );
     } else if(this.state.authenticated){
       return (
@@ -66,9 +69,9 @@ export default class App extends React.Component {
     } else {
       return (
         // <LoginScreen/>
-        <Provider store={store}>
+        // <Provider store={store}>
           <LoginScreen></LoginScreen>
-        </Provider>
+        // </Provider>
       )
     }
   }
@@ -106,5 +109,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 });
-
 
