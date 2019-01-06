@@ -82,8 +82,8 @@ export default class LoginScreen extends React.Component {
                         autoCorrect={false}
                     />
                     <Text style={styles.buttonStyles} onPress={this.onLoginPress}>Login</Text>
-                    <Text style={styles.buttonStyles} onPress={this.onCreateAccountPress}>Create account...</Text>
-                    <Text style={styles.forgotPasswordStyles} onPress={this.onForgotPasswordPress}>Forgot Password...</Text>
+                    <Text style={styles.buttonStyles} onPress={this.onCreateAccountPress}>Create Account</Text>
+                    <Text style={styles.forgotPasswordStyles} onPress={this.onForgotPasswordPress}>Forgot Password?</Text>
                 </View>
                 
             </View>
