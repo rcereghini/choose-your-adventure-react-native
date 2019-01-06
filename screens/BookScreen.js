@@ -230,7 +230,6 @@ class BookScreen extends React.Component {
                 <View></View>
               } 
               <Text style={{fontSize: 22, paddingTop: 20}}>Selected Item: {this.props.selectedItem}</Text>
-              <Text onPress={this.onSignoutPress} style={styles.signoutButton}>Signout</Text>
             </View>
         </View>  
         </ScrollView>
@@ -326,7 +325,7 @@ const styles = StyleSheet.create({
     width: 300,
     color: 'white',
     marginTop: 30,
-    marginLeft: 30,
+    marginLeft: 30,          
     textAlign: 'center',
     backgroundColor: '#333'
   }
