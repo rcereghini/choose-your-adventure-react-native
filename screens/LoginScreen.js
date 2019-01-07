@@ -61,6 +61,7 @@ class LoginScreen extends React.Component {
         </Image>
         <Text style={{fontSize: 32, borderWidth: 2, padding: 10, textAlign: 'center', color: 'white', backgroundColor: '#8C7284', borderColor: '#333232',}} 
               onPress={() => this.setState({authenticated: true})}>{this.props.favoriteAnimal}</Text>
+        
         {/* <TextInput 
           style={{borderWidth: 1, width: 200, height: 50, backgroundColor: 'white', fontSize: 32, padding: 5, marginTop: 20,}}
           value={this.state.favoriteAnimal}

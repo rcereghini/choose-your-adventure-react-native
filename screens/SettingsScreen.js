@@ -1,17 +1,52 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, Alert } from 'react-native'
+import { StackActions, NavigationActions } from 'react-navigation';
+
+import { connect } from 'react-redux'
+
 
 import * as firebase from 'firebase'
 import 'firebase/firestore'
 
-export default class SettingsScreen extends React.Component {
+const mapStateToProps = (state) => {
+  return {
+    userName: state.userName
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    // setFavoriteAnimal: (text) => { dispatch(setFavoriteAnimal(text))},
+    // userAuthenticated: (userId) => { dispatch(userAuthenticated(userId))},
+    // setSelectedItem: (item) => { dispatch(setSelectedItem(item))}
+  }
+}
+
+class SettingsScreen extends React.Component {
   static navigationOptions = {
     header: null
   };
 
+  constructor(props){
+    super(props)
+    this.state = {
+      userName: this.props.userName
+    }
+  }
+
   onSignoutPress = () => {
     firebase.auth().signOut();
   }
+
+
+  // onGalleryPress = () => {
+  //   var navActions = StackActions.reset({
+  //       index: 0,
+  //       key: null,
+  //       actions: [NavigationActions.navigate({routeName: "Gallery"})]
+  //   });
+  //   this.props.navigation.dispatch(navActions);
+  // }
 
   render() {
     /* Go ahead and delete ExpoConfigView and replace it with your
@@ -43,10 +78,11 @@ export default class SettingsScreen extends React.Component {
                         }}
                         source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/cya2018-6942c.appspot.com/o/paper.jpg?alt=media&token=c98d47cf-1ae1-4bd4-890e-165fcd10cf66' }}
                     ></Image>
-        <Text onPress={this.onSignoutPress} style={styles.settingsButton}>Log Out</Text>
+                    <Text>{'User Name: ' + this.props.userName}</Text>
+        <Text onPress={this.onGalleryPress} style={styles.settingsButton}>Gallery</Text>
         <Text style={styles.settingsButton}>Save</Text>
         <Text style={styles.settingsButton}>Load</Text>
-        <Text style={styles.settingsButton}>Support</Text>
+        <Text onPress={this.onSignoutPress} style={styles.settingsButton}>Log Out</Text>
       </View>
       </View>
     )}
@@ -84,3 +120,5 @@ settingsScreenInnerWrap: {
     justifyContent: 'center'
 },
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen)

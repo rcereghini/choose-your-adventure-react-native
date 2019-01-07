@@ -7,6 +7,7 @@ import registerForPushNotificationsAsync from '../api/registerForPushNotificatio
 import LoginScreen from '../screens/auth/LoginScreen';
 import SignupScreen from '../screens/auth/SignupScreen';
 import ForgotPasswordScreen from '../screens/auth/ForgotPasswordScreen';
+import GalleryScreen from '../screens/GalleryScreen';
 
 const RootStackNavigator = createStackNavigator(
   {
@@ -22,6 +23,10 @@ const RootStackNavigator = createStackNavigator(
                       navigationOptions: {
                         header: null
                       } },
+    // Gallery: { screen: GalleryScreen,
+    //           navigationOptions: {
+    //             header: null
+    //           } },
 
     Main: { screen: MainTabNavigator, },
   },

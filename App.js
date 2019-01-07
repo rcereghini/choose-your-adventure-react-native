@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View, Text, Image } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, Text, Image, Alert } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import RootNavigation from './navigation/RootNavigation';
 import MainTabNavigator from './navigation/MainTabNavigator'
@@ -10,21 +10,7 @@ import 'firebase/firestore'
 //REDUX
 import { Provider } from 'react-redux';
 import { store } from './redux/app-redux';
-import { connect } from 'react-redux'
 
-
-const mapStateToProps = (state) => {
-  return {
-    authenticated: state.authenticated
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setFavoriteAnimal: (text) => { dispatch(setFavoriteAnimal(text))},
-    itemFound: (item) => { dispatch(itemFound(item))}
-  }
-}
 
 export default class App extends React.Component {
   
@@ -35,6 +21,7 @@ export default class App extends React.Component {
       isLoadingComplete: false,
       isAuthenticationReady: false,
       isAuthenticated: false,
+      userName: this.props.userName,
       authenticated: false
     };
 
@@ -49,9 +36,11 @@ export default class App extends React.Component {
   onAuthStateChanged = (user) => {
     this.setState({isAuthenticatedReady: true})
     this.setState({isAuthenticated: !!user})
+    this.setState({userName: user.uid}, () => Alert.alert(this.state.userName))
+    
   }
 
- 
+  
   render() {
     
     if ( (!this.state.isLoadingComplete && !this.state.isAuthenticationReady) && !this.props.skipLoadingScreen) {
@@ -70,7 +59,7 @@ export default class App extends React.Component {
         <Provider store={store}>
           <View style={styles.container}>
             {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-            {(this.state.isAuthenticated) ? <MainTabNavigator/> : <RootNavigation />}
+            {(this.state.isAuthenticated) ? <MainTabNavigator userUID={this.state.userName}/> : <RootNavigation />}
           </View>
         </Provider>
       );
@@ -110,4 +99,3 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 });
-
