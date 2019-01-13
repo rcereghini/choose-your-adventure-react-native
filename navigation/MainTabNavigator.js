@@ -7,6 +7,8 @@ import BookScreen from '../screens/BookScreen';
 import AvatarScreen from '../screens/AvatarScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
+// this.props.navigate('Setting
+
 const BookStack = createStackNavigator({
   Book: BookScreen,
 });

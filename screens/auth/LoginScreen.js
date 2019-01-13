@@ -16,7 +16,7 @@ export default class LoginScreen extends React.Component {
 
     onLoginPress = () => {
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-            .then(() => { Alert.alert('You have signed in!') }, (error) => { Alert.alert(error.message); });
+            .then(() => { Alert.alert('You have signed in!') }, (error) => { Alert.alert('You have failed to authenticate.'); });
     }
 
     onCreateAccountPress = () => {

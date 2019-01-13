@@ -11,6 +11,7 @@ import 'firebase/firestore'
 import { Provider } from 'react-redux';
 import { store } from './redux/app-redux';
 
+console.disableYellowBox = true;
 
 export default class App extends React.Component {
   
@@ -21,7 +22,10 @@ export default class App extends React.Component {
       isLoadingComplete: false,
       isAuthenticationReady: false,
       isAuthenticated: false,
-      userName: this.props.userName,
+      fireDisplayName: this.props.fireDisplayName,
+      userUID: 'hi',
+      userEmail: this.props.userEmail,
+      userPhotoURL: this.props.userPhotoURL,
       authenticated: false
     };
 
@@ -31,15 +35,20 @@ export default class App extends React.Component {
     const firestore = firebase.firestore();
     const settings = {timestampsInSnapshots: true}
     firestore.settings(settings);
+
+    console.log('111111111111111111', this.state)
+    console.log(store)
   }
 
   onAuthStateChanged = (user) => {
     this.setState({isAuthenticatedReady: true})
     this.setState({isAuthenticated: !!user})
-    this.setState({userName: user.uid}, () => Alert.alert(this.state.userName))
-    
-  }
 
+    // this.setState({
+      
+    // }, () => console.log('onAuthChanged *************', this.state))
+    // console.log('Did we get here?')
+  }
   
   render() {
     
@@ -59,7 +68,13 @@ export default class App extends React.Component {
         <Provider store={store}>
           <View style={styles.container}>
             {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-            {(this.state.isAuthenticated) ? <MainTabNavigator userUID={this.state.userName}/> : <RootNavigation />}
+            {(this.state.isAuthenticated) ? <MainTabNavigator 
+                                                // userUID={this.state.userName}
+                                                // fireDisplayName ={this.state.fireDisplayName}
+                                                // userUID ={this.state.userUID}
+                                                // userEmail ={this.state.userEmail}
+                                                // userPhotoURL ={this.state.userPhotoURL}
+                                            /> : <RootNavigation />}
           </View>
         </Provider>
       );

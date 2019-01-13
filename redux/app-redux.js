@@ -10,7 +10,10 @@ const initialState = {
     favoriteAnimal: "duck",
     selectedItem: null,
     authenticated: true,
-    userName: '',
+    // fireDisplayName: null,
+    userUID: null,
+    // userEmail: null,
+    // userPhotoURL: null,
 }
 
 // 
@@ -22,9 +25,11 @@ const reducer = (state = initialState, action) => {
     switch(action.type){
         case "setFavoriteAnimal": return { ...state, favoriteAnimal: action.value};
         case "userAuthenticated": return { ...state, authenticated: action.value};
-        case "setSelectedItem": return { ...state, selectedItem: action.value}
-        case "setUserName": return { ...state, userName: action.value}
-
+        case "setSelectedItem": return { ...state, selectedItem: action.value};
+        case "setUserUID": return { ...state, userUID: action.value};
+        // case "setFireDisplayName": return { ...state, fireDisplayName: action.value}
+        // case "setEmail": return { ...state, userEmail: action.value}
+        // case "setPhotoURL": return { ...state, userPhotoURL: action.value}
         default: return state;
     }
     return state;
@@ -63,11 +68,40 @@ const setSelectedItem = (selectedItem) => {
     }
 }
 
-const setUserName = (name) => {
+// const setFireDisplayName = (name) => {
+//     return {
+//         type: "setFireDisplay",
+//         value: name
+//     }
+// }
+
+const setUserUID = (uid) => {
     return {
-        type: "setUserName",
-        value: name
+        type: "setUserUID",
+        value: uid
     }
 }
 
-export { setFavoriteAnimal, userAuthenticated, setSelectedItem, setUserName }
+// const setUserEmail = (email) => {
+//     return {
+//         type: "setUserEmail",
+//         value: email
+//     }
+// }
+
+// const setUserPhotoURL = (url) => {
+//     return {
+//         type: "setUserPhotoURL",
+//         value: url
+//     }
+// }
+
+export { 
+    setFavoriteAnimal, 
+    userAuthenticated, 
+    setSelectedItem, 
+    // setFireDisplayName, 
+    setUserUID, 
+    // setUserEmail, 
+    // setUserPhotoURL 
+}

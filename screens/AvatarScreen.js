@@ -34,35 +34,87 @@ class AvatarScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+      <Image
+                        style={{
+                            backgroundColor: '#ccc',
+                            flex: 1,
+                            position: 'absolute',
+                            width: '100%',
+                            height: '100%',
+                            justifyContent: 'center',
+                            marginTop: 0
+                        }}
+                        source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/cya2018-6942c.appspot.com/o/paper.jpg?alt=media&token=c98d47cf-1ae1-4bd4-890e-165fcd10cf66' }}
+                    ></Image>
         <View style={styles.avatarContainer}>
-          <Text style={styles.avatarLeft}>L</Text>
+          <View style={styles.avatarLeft}>
+            <Text style={styles.invButton} onPress={() => {
+              console.log('+1')  
+            }}>Helmet</Text> 
+            {/* learn to conditionally render here. */}
+            <Text style={styles.invButton} onPress={() => {
+              console.log('+1')  
+            }}>Weapon</Text> 
+            <Text style={styles.invButton} onPress={() => {
+              console.log('+1')  
+            }}>Chest</Text>  
+            <Text style={styles.invButton} onPress={() => {
+              console.log('+1')  
+            }}>Boots</Text> 
+          </View>
           <View style={styles.avatarCenter}>
             <Image style={styles.avatarImage} source={{uri:'https://firebasestorage.googleapis.com/v0/b/cya2018-6942c.appspot.com/o/manSilhouette.png?alt=media&token=d5c50063-966b-457f-bbc4-b2351a962b23'}}>
             </Image>
           </View>
           <View style={styles.avatarRight}>
-            <Text style={{color: 'white', textAlign: 'center'}}>R</Text>
-            <Button title='catNipz' onPress={() => {
-              this.setState({selectedItem: 'catNip'}, () => this.props.setSelectedItem(this.state.selectedItem))
-              }} 
-            />
+          <Text style={this.state.selectedItem === 'crowd call' ? styles.itemButtonSelected : styles.itemButton} 
+                  onPress={this.state.selectedItem === 'crowd call' ? 
+                  () => {
+                    this.setState({selectedItem: null}, () => this.props.setSelectedItem(this.state.selectedItem))
+                  } :
+                  () => {
+                    this.setState({selectedItem: 'crowd call'}, () => this.props.setSelectedItem(this.state.selectedItem))
+                  }
+                }>Crowd Call
+            </Text> 
             {/* learn to conditionally render here. */}
-            <Button title='donkeyPits' onPress={() => {
-              this.setState({selectedItem: 'donkeyPits'}, () => this.props.setSelectedItem(this.state.selectedItem))
-              }}
-            /> 
-            <Button title='emeraldLint' onPress={() => {
-              this.setState({selectedItem: 'llamaLint'}, () => this.props.setSelectedItem(this.state.selectedItem))
-              }}
-            /> 
-            <Button title='frogMeteor' onPress={() => {
-              this.setState({selectedItem: 'frogMeteor'}, () => this.props.setSelectedItem(this.state.selectedItem))
-              }}
-            /> 
+            <Text style={this.state.selectedItem === 'flash' ? styles.itemButtonSelected : styles.itemButton} 
+                  onPress={this.state.selectedItem === 'flash' ? 
+                  () => {
+                    this.setState({selectedItem: null}, () => this.props.setSelectedItem(this.state.selectedItem))
+              } :
+                  () => {
+                    this.setState({selectedItem: 'flash'}, () => this.props.setSelectedItem(this.state.selectedItem))
+              }}>Flash
+            </Text> 
+            <Text style={this.state.selectedItem === 'emeraldLint' ? styles.itemButtonSelected : styles.itemButton} 
+                  onPress={this.state.selectedItem === 'emeraldLint' ? 
+                  () => {
+                    this.setState({selectedItem: null}, () => this.props.setSelectedItem(this.state.selectedItem))
+                  } :
+                  () => {
+                    this.setState({selectedItem: 'emeraldLint'}, () => this.props.setSelectedItem(this.state.selectedItem))
+                  }
+                }>Emerald Lint
+            </Text> 
+            <Text style={this.state.selectedItem === 'potion' ? styles.itemButtonSelected : styles.itemButton} 
+                  onPress={this.state.selectedItem === 'potion' ? 
+                  () => {
+                    this.setState({selectedItem: null}, () => this.props.setSelectedItem(this.state.selectedItem))
+                  } :
+                  () => {
+                    this.setState({selectedItem: 'potion'}, () => this.props.setSelectedItem(this.state.selectedItem))
+                  }
+                }>Potion
+            </Text> 
 
           </View>
         </View>
         <View style={styles.attributeContainer}>
+          <View style={styles.kribbitBalance}>
+            <Text style={styles.kribbitIcon}>🔨</Text>
+            <Text style={styles.kribbitText}>Upgrade Gear</Text>
+          </View>
           <View style={styles.kribbitBalance}>
             <Text style={styles.kribbitIcon}>⛏</Text>
             <Text style={styles.kribbitText}>Scavange Kribbits</Text>
@@ -72,7 +124,6 @@ class AvatarScreen extends React.Component {
             <Text style={styles.kribbitText}>Kribbits: 0</Text>
           </View>
         </View>
-        <Text>Selected Item: {this.props.selectedItem}</Text>
       </View>
     );
   }
@@ -81,23 +132,24 @@ class AvatarScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#333',
   },
   avatarContainer:{
-    flex: 3,
-    backgroundColor: 'darkgrey',
+    flex: 4,
+    // backgroundColor: 'darkgrey',
     flexDirection: 'row',
   },
   avatarRight:{
     flex: 1,
     textAlign: 'center',
-    backgroundColor: '#333',
+    // backgroundColor: '#333',
     justifyContent: 'space-around'
   },
   avatarLeft: {
     flex: 1,
     textAlign: 'center',
-    backgroundColor: '#333'
+    // backgroundColor: '#333',
+    justifyContent: 'space-around'
   },
   avatarCenter: {
     flex: 3,
@@ -108,22 +160,53 @@ const styles = StyleSheet.create({
   },
   attributeContainer:{
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    paddingBottom: 20
   },
   kribbitBalance:{
     flex: 1,
-    backgroundColor: 'grey',
+    // backgroundColor: 'grey',
   },
   kribbitDrag:{
     flex: 1,
-    backgroundColor: 'grey',
+    // backgroundColor: 'grey',
   },
   kribbitIcon:{
     textAlign: 'center',
     fontSize: 80
   },
   kribbitText: {
+    textAlign: 'center',
+  },
+  invButton: {
+    height: 70,
+    paddingTop: 20,
+    width: 70,
+    backgroundColor: '#333',
+    color: 'white',
+    display: 'flex',
     textAlign: 'center'
+  },
+  itemButton: {
+    height: 70,
+    paddingTop: 20,
+    width: 70,
+    backgroundColor: '#333',
+    color: 'white',
+    display: 'flex',
+    textAlign: 'center'
+  },
+  itemButtonSelected: {
+    height: 70,
+    paddingTop: 20,
+    width: 70,
+    backgroundColor: 'red',
+    color: 'white',
+    display: 'flex',
+    textAlign: 'center'
+  },
+  selectedItem1: {
+
   }
 });
 

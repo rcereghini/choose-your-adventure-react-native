@@ -16,21 +16,36 @@ import 'firebase/firestore'
 import { connect } from 'react-redux'
 
 
+
 const mapStateToProps = (state) => {
   return {
     favoriteAnimal: state.favoriteAnimal,
     authenticated: state.authenticated,
-    selectedItem: state.selectedItem
+    selectedItem: state.selectedItem,
+    userUID: state.userUID,
+    userEmail: state.userEmail,
+    fireDisplayName: state.fireDisplayName,
+    userPhotoURL: state.userPhotoURL
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // setFavoriteAnimal: (text) => { dispatch(setFavoriteAnimal(text))},
-    // userAuthenticated: (userId) => { dispatch(userAuthenticated(userId))},
-    // setSelectedItem: (item) => { dispatch(setSelectedItem(item))}
-  }
+    setSelectedItem: (item) => { dispatch(setSelectedItem(item))},
+    setUserUID: (uid) => { dispatch(setUserUID(uid))}  }
 }
+
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     // setUserUID: (uid) => { dispatch(setUserUID(uid))},
+//     // setUserEmail: (email) => { dispatch(setUserEmail(email))},
+//     // setUserPhotoURL: (url) => { dispatch(setUserPhotoURL(url))},
+//     // setFireDisplayName: (name) => { dispatch(setFireDisplayName(name))}
+//     // setFavoriteAnimal: (text) => { dispatch(setFavoriteAnimal(text))},
+//     // userAuthenticated: (userId) => { dispatch(userAuthenticated(userId))},
+//     // setSelectedItem: (item) => { dispatch(setSelectedItem(item))}
+//   }
+// }
 
 
 const BOOK = {
@@ -48,6 +63,7 @@ const BOOK = {
   title: '',
 }
 
+let userFB = null;
 
 class BookScreen extends React.Component {
   static navigationOptions = {
@@ -58,23 +74,30 @@ class BookScreen extends React.Component {
     super(props);
     this.state = {
       ...BOOK,
-      user:{
-        name: 'User Name',
-        friendName: 'Thomas',
-        gender: 'male',
-        kribbits: 0,
-        gameId: 'testId',
-        inventory: ['Beginners Luck']
-    },
-    selectedItem: this.props.selectedItem
-  }
+      // user:{
+      //   name: 'User Name',
+      //   friendName: 'Thomas',
+      //   gender: 'male',
+      //   kribbits: 0,
+      //   gameId: 'testId',
+      //   inventory: ['Beginners Luck']
+      // },
+      user: {},
+      selectedItem: this.props.selectedItem,
+      fireDisplayName: this.props.fireDisplayName,
+      userUID: this.props.userUID,
+      userEmail: this.props.userEmail,
+      userPhotoURL: this.props.userPhotoURL,
+    }
 
+  
+  
     if(!firebase.apps.length)
       firebase.initializeApp(ApiKeys.FirebaseConfig)
     const firestore = firebase.firestore();
     const settings = {timestampsInSnapshots: true}
     firestore.settings(settings);
-
+    this.initializeGame = this.initializeGame.bind(this);
     this.setName = this.setName.bind(this);
     this.winGame = this.winGame.bind(this);
     this.loseGame = this.loseGame.bind(this);
@@ -88,7 +111,9 @@ class BookScreen extends React.Component {
 
 
   componentDidMount(){
-    this.getThisPage(0)
+    this.initializeGame()
+    // setTimeout(() => this.setState({userUID: userFB.uid}), 3000)
+    // setTimeout(() => this.setState({userUID: userFB.uid}, () => this.props.setUserUID(this.state.userUID)), 3000)
   }
 
 
@@ -110,6 +135,11 @@ class BookScreen extends React.Component {
       .catch(() => {
         firebase.firestore().collection('userInventory').doc(this.state.user.gameId).set({[item]: true})
       })
+  }
+
+  // () => this.setState({userUID: user.uid}, () => this.props.setUserUID(this.state.userUID))
+  initializeGame(){
+    this.getThisPage(0)
   }
 
   async getThisPage(pNum){
@@ -229,7 +259,7 @@ class BookScreen extends React.Component {
                 <Text onPress={() => this.optionSelect(this.state.options[1].three)} style={styles.choiceButton}>{this.state.options[0].three}</Text> :
                 <View></View>
               } 
-              <Text style={{fontSize: 22, paddingTop: 20}}>Selected Item: {this.props.selectedItem}</Text>
+              <Text style={this.props.selectedItem ? styles.selectedItem1 : styles.selectedItem2}>{this.props.selectedItem}</Text>
             </View>
         </View>  
         </ScrollView>
@@ -328,6 +358,18 @@ const styles = StyleSheet.create({
     marginLeft: 30,          
     textAlign: 'center',
     backgroundColor: '#333'
+  },
+  selectedItem1: {
+    height: 70,
+    paddingTop: 20,
+    width: 70,
+    backgroundColor: '#333',
+    color: 'white',
+    display: 'flex',
+    textAlign: 'center',
+    alignSelf: 'flex-end',
+    marginTop: 10,
+    marginRight: 10
   }
 });
 
