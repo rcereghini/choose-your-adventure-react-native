@@ -44,7 +44,7 @@ class AvatarScreen extends React.Component {
                             justifyContent: 'center',
                             marginTop: 0
                         }}
-                        source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/cya2018-6942c.appspot.com/o/paper.jpg?alt=media&token=c98d47cf-1ae1-4bd4-890e-165fcd10cf66' }}
+                        source={{ uri: 'https://media3.giphy.com/media/d2Z7keyUwp4rzuG4/giphy.gif?cid=3640f6095c3bcb2772364d6d67e51cdb' }}
                     ></Image>
         <View style={styles.avatarContainer}>
           <View style={styles.avatarLeft}>
@@ -95,7 +95,7 @@ class AvatarScreen extends React.Component {
                   () => {
                     this.setState({selectedItem: 'emeraldLint'}, () => this.props.setSelectedItem(this.state.selectedItem))
                   }
-                }>Emerald Lint
+                }>Whistle
             </Text> 
             <Text style={this.state.selectedItem === 'potion' ? styles.itemButtonSelected : styles.itemButton} 
                   onPress={this.state.selectedItem === 'potion' ? 
@@ -117,11 +117,11 @@ class AvatarScreen extends React.Component {
           </View>
           <View style={styles.kribbitBalance}>
             <Text style={styles.kribbitIcon}>⛏</Text>
-            <Text style={styles.kribbitText}>Scavange Kribbits</Text>
+            <Text style={styles.kribbitText}>Gain Valor</Text>
           </View>
           <View style={styles.kribbitDrag}>
             <Text style={styles.kribbitIcon}>💰</Text>
-            <Text style={styles.kribbitText}>Kribbits: 0</Text>
+            <Text style={styles.kribbitText}>Valor: 0</Text>
           </View>
         </View>
       </View>
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#333',
   },
   avatarContainer:{
-    flex: 4,
+    flex: 5,
     // backgroundColor: 'darkgrey',
     flexDirection: 'row',
   },
@@ -153,7 +153,9 @@ const styles = StyleSheet.create({
   },
   avatarCenter: {
     flex: 3,
-    textAlign: 'center'
+    textAlign: 'center',
+    paddingTop: 15,
+    paddingBottom: 10
   },
   avatarImage: {
     height: '100%'
@@ -161,22 +163,31 @@ const styles = StyleSheet.create({
   attributeContainer:{
     flex: 1,
     flexDirection: 'row',
-    paddingBottom: 20
+    paddingBottom: 20,
+    backgroundColor: '#333232',
+    
+    borderTopRightRadius: 40,
+    borderTopLeftRadius: 40,
+    borderWidth: 5,
+    borderColor: '#545'
   },
   kribbitBalance:{
     flex: 1,
+    color: 'white',
     // backgroundColor: 'grey',
   },
   kribbitDrag:{
     flex: 1,
+    color: 'white',
     // backgroundColor: 'grey',
   },
   kribbitIcon:{
     textAlign: 'center',
-    fontSize: 80
+    fontSize: 60
   },
   kribbitText: {
     textAlign: 'center',
+    color: 'white',
   },
   invButton: {
     height: 70,
@@ -185,7 +196,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#333',
     color: 'white',
     display: 'flex',
-    textAlign: 'center'
+    textAlign: 'center',
+    borderColor: '#545',
+    borderWidth: 5
   },
   itemButton: {
     height: 70,
@@ -194,13 +207,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#333',
     color: 'white',
     display: 'flex',
-    textAlign: 'center'
+    textAlign: 'center',
+    borderColor: '#545',
+    borderWidth: 5
   },
   itemButtonSelected: {
     height: 70,
     paddingTop: 20,
     width: 70,
-    backgroundColor: 'red',
+    borderWidth: 5,
+    backgroundColor: '#333',
+    borderColor: 'gold',
     color: 'white',
     display: 'flex',
     textAlign: 'center'

@@ -113,10 +113,14 @@ class SettingsScreen extends React.Component {
                         }}
                         source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/cya2018-6942c.appspot.com/o/paper.jpg?alt=media&token=c98d47cf-1ae1-4bd4-890e-165fcd10cf66' }}
                     ></Image>
-                    <Image style={{ height: 155, width: 155, borderRadius: 100, borderWidth: 8, borderColor: '#8C7284'}}source={{ uri: this.state.userPhotoURL }}></Image>
-                    <Text style={{fontSize: 30}}>{((this.state.fireDisplayName) ? this.state.fireDisplayName : '?????')}</Text>
-                    <Text>{this.state.userEmail}</Text>
-                    <Text>{this.state.userUID}</Text>
+                    <View style={{display: 'flex', flexDirection: 'row'}}>
+                      <Image style={{ height: 100, width: 100, borderRadius: 100, borderWidth: 8, borderColor: '#8C7284'}}source={{ uri: this.state.userPhotoURL }}></Image>
+                      <View>
+                        <Text style={{fontSize: 30, textAlign: 'center', paddingLeft: 20}}>{((this.state.fireDisplayName) ? this.state.fireDisplayName : '?????')}</Text>
+                        <Text style={{fontSize: 14, textAlign: 'center', paddingLeft: 20}}>{this.state.userEmail}</Text>
+                        {/* <Text style={{fontSize: 18, textAlign: 'center'}}>{this.state.userUID}</Text> */}
+                      </View>
+                    </View>
         <Text onPress={this.onGalleryPress} style={styles.settingsButton}>Gallery</Text>
         {/* <Text onPress={sound.play()} style={styles.settingsButton}>Gallery</Text> */}
 

@@ -14,6 +14,18 @@ import * as firebase from 'firebase'
 import 'firebase/firestore'
 
 import { connect } from 'react-redux'
+// import Sound from 'react-native-sound'
+
+// import { Sound } from 'react-native-sound';
+
+// const sound = new Sound('http://sounds.com/some-sound', null, (error) => {
+//   if (error) {
+//     // do something
+//   }
+  
+//   // play when loaded
+//   sound.play();
+// });
 
 
 
@@ -140,6 +152,15 @@ class BookScreen extends React.Component {
   // () => this.setState({userUID: user.uid}, () => this.props.setUserUID(this.state.userUID))
   initializeGame(){
     this.getThisPage(0)
+    async function playBackgroundMusic(){
+      const backgroundMusic = new Expo.Audio.Sound();
+      try {
+        await backgroundMusic.loadAsync(require('../assets/sounds/sound.wav'));
+        await backgroundMusic.playAsync();
+      } catch (error) {
+        // An error occurred!
+    }}
+    playBackgroundMusic()
   }
 
   async getThisPage(pNum){
@@ -171,7 +192,16 @@ class BookScreen extends React.Component {
   optionSelect(option){
     
     this.getThisPage(option)
-    
+
+    async function test2(){
+      const backgroundMusic = new Expo.Audio.Sound();
+      try {
+        await backgroundMusic.loadAsync(require('../assets/sounds/pageFlip.wav'));
+        await backgroundMusic.playAsync();
+      } catch (error) {
+        // An error occurred!
+    }}
+    test2()
     //check inv/stat add
   }
 
@@ -207,7 +237,7 @@ class BookScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}> 
+      <View style={styles.container}>
         <StatusBar hidden />
         <Image
             style={{
