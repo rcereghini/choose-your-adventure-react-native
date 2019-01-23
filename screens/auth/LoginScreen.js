@@ -2,6 +2,8 @@
 import React from 'react';
 import { StyleSheet, View, Text, TextInput, Button, Alert, Image } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
+import { Font } from 'expo'
+
 import * as firebase from 'firebase';
 
 export default class LoginScreen extends React.Component {
@@ -11,7 +13,17 @@ export default class LoginScreen extends React.Component {
         this.state = { 
             email: "",
             password: "",
+            fontLoaded: false,
         };
+    }
+
+    async componentDidMount(){
+        await Font.loadAsync({
+            //Can rename to more useful description.
+            // 'julius-sans-one': require('../assets/fonts/JuliusSansOne-Regular.ttf')
+            'main-text-font': require('../../assets/fonts/Mirza-Regular.ttf')
+          })
+          this.setState({ fontLoaded: true })
     }
 
     onLoginPress = () => {
@@ -50,6 +62,7 @@ export default class LoginScreen extends React.Component {
                     }}
                     source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/cya2018-6942c.appspot.com/o/leather.jpg?alt=media&token=186d45c2-5c89-4529-acd6-0018d767995f' }}
                 ></Image>
+                { this.state.fontLoaded ? 
                 <View style={styles.loginScreenInnerWrap}>
                     <Image
                         style={{
@@ -63,7 +76,7 @@ export default class LoginScreen extends React.Component {
                         }}
                         source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/cya2018-6942c.appspot.com/o/paper.jpg?alt=media&token=c98d47cf-1ae1-4bd4-890e-165fcd10cf66' }}
                     ></Image>
-                    <Text style={{paddingBottom: 10, fontSize: 36}}>Login</Text> 
+                    <Text style={{paddingBottom: 10, fontSize: 56, fontFamily: 'main-text-font'}}>Login</Text> 
                     <TextInput style={styles.inputStyles}
                         value={this.state.email}
                         onChangeText={(text) => { this.setState({email: text}) }}
@@ -84,7 +97,7 @@ export default class LoginScreen extends React.Component {
                     <Text style={styles.buttonStyles} onPress={this.onLoginPress}>Login</Text>
                     <Text style={styles.buttonStyles} onPress={this.onCreateAccountPress}>Create Account</Text>
                     <Text style={styles.forgotPasswordStyles} onPress={this.onForgotPasswordPress}>Forgot Password?</Text>
-                </View>
+                </View> : null}
                 
             </View>
         );
@@ -99,7 +112,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     loginScreenInnerWrap: {
-        flex: .7,
+        flex: .93,
         width: '93%',
         display: 'flex',
         alignItems: 'center',
@@ -107,20 +120,24 @@ const styles = StyleSheet.create({
     },
     buttonStyles:{
         textAlign: 'center',
+        fontFamily: 'main-text-font',
+        fontSize: 26,
         width: 200,
-        height: 40,
+        height: 45,
         borderWidth: 1,
-        paddingTop: 10,
+        // paddingTop: 5,
         marginTop: 10,
         backgroundColor: '#8C7284',
         color: 'white'
     },
     forgotPasswordStyles:{
+        fontFamily: 'main-text-font',
         paddingTop: 10,
         paddingBottom: 10,
         color: 'white'
     },
     inputStyles: {
+        fontFamily: 'main-text-font',
         width: 200, 
         height: 40, 
         borderWidth: 1 , 

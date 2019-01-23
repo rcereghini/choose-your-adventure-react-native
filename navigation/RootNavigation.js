@@ -1,41 +1,62 @@
-import { Notifications } from 'expo';
-import React from 'react';
-import { createStackNavigator } from 'react-navigation';
-import MainTabNavigator from './MainTabNavigator';
-import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
+import { Notifications } from "expo";
+import React from "react";
+import { createStackNavigator } from "react-navigation";
+import MainTabNavigator from "./MainTabNavigator";
+import registerForPushNotificationsAsync from "../api/registerForPushNotificationsAsync";
 
-import LoginScreen from '../screens/auth/LoginScreen';
-import SignupScreen from '../screens/auth/SignupScreen';
-import ForgotPasswordScreen from '../screens/auth/ForgotPasswordScreen';
-import GalleryScreen from '../screens/GalleryScreen';
+import LoginScreen from "../screens/auth/LoginScreen";
+import SignupScreen from "../screens/auth/SignupScreen";
+import ForgotPasswordScreen from "../screens/auth/ForgotPasswordScreen";
+import AvatarScreen from "../screens/AvatarScreen";
+import SettingsScreen from "../screens/SettingsScreen";
+import BookScreen from "../screens/BookScreen";
 
 const RootStackNavigator = createStackNavigator(
   {
-    Login: { screen: LoginScreen,
-              navigationOptions: {
-                header: null
-              } },
-    Signup: { screen: SignupScreen,
-              navigationOptions: {
-                header: null
-              } },
-    ForgotPassword: { screen: ForgotPasswordScreen,
-                      navigationOptions: {
-                        header: null
-                      } },
-    // Gallery: { screen: GalleryScreen,
-    //           navigationOptions: {
-    //             header: null
-    //           } },
-
-    Main: { screen: MainTabNavigator, },
+    Login: {
+      screen: LoginScreen,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Signup: {
+      screen: SignupScreen,
+      navigationOptions: {
+        header: null
+      }
+    },
+    ForgotPassword: {
+      screen: ForgotPasswordScreen,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Avatar: {
+      screen: AvatarScreen,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Settings: {
+      screen: SettingsScreen,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Book: {
+      screen: BookScreen,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Main: { screen: MainTabNavigator }
   },
   {
     navigationOptions: () => ({
       headerTitleStyle: {
-        fontWeight: 'normal',
-      },
-    }),
+        fontWeight: "normal"
+      }
+    })
   }
 );
 
@@ -60,10 +81,14 @@ export default class RootNavigator extends React.Component {
     registerForPushNotificationsAsync();
 
     // Watch for incoming notifications
-    this._notificationSubscription = Notifications.addListener(this._handleNotification);
+    this._notificationSubscription = Notifications.addListener(
+      this._handleNotification
+    );
   }
 
   _handleNotification = ({ origin, data }) => {
-    console.log(`Push notification ${origin} with data: ${JSON.stringify(data)}`);
+    console.log(
+      `Push notification ${origin} with data: ${JSON.stringify(data)}`
+    );
   };
 }
