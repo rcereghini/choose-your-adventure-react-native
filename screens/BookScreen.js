@@ -96,7 +96,8 @@ class BookScreen extends React.Component {
 
   async componentDidMount() {
     await Font.loadAsync({
-      "main-text-font": require("../assets/fonts/Mirza-Regular.ttf")
+      "main-text-font": require("../assets/fonts/Mirza-Regular.ttf"),
+      "main-title-font": require("../assets/fonts/Crack-Regular.ttf")
     });
     this.initializeGame();
     this.setState({ fontLoaded: true });
@@ -187,7 +188,7 @@ class BookScreen extends React.Component {
     this.getThisPage(option);
 
     async function test2() {
-      const backgroundMusic = new Expo.Audio.Sound();
+      // const backgroundMusic = new Expo.Audio.Sound();
       try {
         await backgroundMusic.loadAsync(
           require("../assets/sounds/pageFlip.wav")
@@ -554,7 +555,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 30,
     paddingTop: 20,
-    fontFamily: "main-text-font",
+    fontFamily: "main-title-font",
     textAlign: "center"
   },
   mainText: {

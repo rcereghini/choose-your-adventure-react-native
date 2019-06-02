@@ -6,6 +6,7 @@ import { StackActions, NavigationActions } from "react-navigation";
 import { connect } from "react-redux";
 import { Font } from "expo";
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo";
 
 import * as firebase from "firebase";
 import "firebase/firestore";
@@ -43,11 +44,13 @@ class SettingsScreen extends React.Component {
       fontLoaded: false
     };
 
-    firebase.auth().currentUser.updateProfile({
-      displayName: null,
-      photoURL:
-        "https://st2.depositphotos.com/9223672/12056/v/950/depositphotos_120568236-stock-illustration-male-face-avatar-logo-template.jpg"
-    });
+    // ------- TO UPDATE A PROFILE --------
+    // firebase.auth().currentUser.updateProfile({
+    //   displayName: null,
+    //   photoURL:
+    //     "https://st2.depositphotos.com/9223672/12056/v/950/depositphotos_120568236-stock-illustration-male-face-avatar-logo-template.jpg"
+    // });
+    // ------------------------------------
   }
 
   async componentDidMount() {
@@ -204,10 +207,26 @@ class SettingsScreen extends React.Component {
               marginTop: 25
             }}
           >
-            <Text onPress={this.onGalleryPress} style={styles.settingsButton}>
-              <Ionicons name="md-medal" size={32} color="white" />
-              Achievements
-            </Text>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+            >
+              <LinearGradient
+                colors={["#4c669f", "#3b5998", "#192f6a"]}
+                style={{ alignItems: "center", borderRadius: 5 }}
+              >
+                <Text
+                  onPress={this.onGalleryPress}
+                  style={styles.settingsButton}
+                >
+                  <Ionicons name="md-medal" size={32} color="white" />
+                  Achievements
+                </Text>
+              </LinearGradient>
+            </View>
             {/* <Text onPress={sound.play()} style={styles.settingsButton}>Gallery</Text> */}
             <Text style={styles.settingsButton}>
               <Ionicons name="md-save" size={32} color="white" /> Save
@@ -242,10 +261,8 @@ const styles = StyleSheet.create({
     width: 240,
     flex: 1,
     borderWidth: 1,
-    paddingTop: 7,
-    marginTop: 10,
     backgroundColor: "#8C7284",
-    // backgroundColor: 'linear-gradient(to bottom, #3c333a, #422b38, #482132, #4e1528, #52041b)',
+    backgroundColor: "transparent",
     color: "white"
   },
   settingsScreenWrap: {

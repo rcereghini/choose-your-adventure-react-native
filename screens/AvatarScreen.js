@@ -40,7 +40,8 @@ class AvatarScreen extends React.Component {
 
   async componentDidMount() {
     await Font.loadAsync({
-      "main-text-font": require("../assets/fonts/Mirza-Regular.ttf")
+      "main-text-font": require("../assets/fonts/Mirza-Regular.ttf"),
+      "main-title-font": require("../assets/fonts/Crack-Regular.ttf")
     });
     this.setState({ fontLoaded: true });
   }
